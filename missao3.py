@@ -1,37 +1,28 @@
-LIMITE_MAXIMO = 80
-LIMITE_MINIMO = 0
+class TemperatureSensor:
+    def __init__(self, temperature):
+        self.temperature = temperature  
 
+    def verify_temperature(self):
+        """ Verify if the temperature is valid. Raises an exception if the temperature is negative or above a certain threshold. """
+        if self.temperature < 0:
+            raise ValueError("Temperature cannot be negative.")
+        elif self.temperature > 100:
+            raise ValueError("Temperature exceeds valid range.")
+        return True
 
-def alerta_sistema(sensor: str, valor: float, tipo: str) -> None:
-    print(f"[ALERTA] Sensor '{sensor}': valor crítico detectado ({valor}°C) — tipo: {tipo}.")
+class Logger:
+    @staticmethod
+    def log(message):
+        """ Log a message to the console. """
+        print(message)
 
-
-def enviar_notificacao(canal: str, motivo: str) -> None:
-    print(f"[NOTIFICACAO] Enviando alerta via {canal}. Motivo: {motivo}.")
-
-
-def monitorar_temperatura(atual: float) -> None:
-    print(f"[MONITORAMENTO] Temperatura atual: {atual}°C")
-
-    if atual > LIMITE_MAXIMO:
-        alerta_sistema("Temperatura", atual, "MAXIMA")
-        enviar_notificacao("E-mail", f"Temperatura acima do limite maximo ({LIMITE_MAXIMO}°C)")
-
-    elif atual < LIMITE_MINIMO:
-        alerta_sistema("Temperatura", atual, "MINIMA")
-        enviar_notificacao("E-mail", f"Temperatura abaixo do limite minimo ({LIMITE_MINIMO}°C)")
-
-    else:
-        print(f"[OK] Temperatura dentro dos parametros normais ({LIMITE_MINIMO}°C a {LIMITE_MAXIMO}°C).")
-
-
-if __name__ == "__main__":
-    print("=" * 50)
-    print("SISTEMA DE MONITORAMENTO DE TEMPERATURA")
-    print("=" * 50)
-
-    monitorar_temperatura(85)
-    print()
-    monitorar_temperatura(-5)
-    print()
-    monitorar_temperatura(42)
+if __name__ == '__main__':
+    # Example usage
+    temp = 25  # You can change this to test other values
+    sensor = TemperatureSensor(temp)
+    logger = Logger()
+    try:
+        if sensor.verify_temperature():
+            logger.log(f"Temperature {temp} is valid.")
+    except ValueError as e:
+        logger.log(f"Error: {e}")
