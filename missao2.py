@@ -1,14 +1,14 @@
 import requests
 
-# URL COM ERRO (viacepx não existe) para a estratégia de IA
-url_com_erro = "https://viacepx.com.br/ws/01001000/json/"
+url = "https://viacep.com.br/ws/01001000/json/"
 
 print("Tentando conectar na API...")
 
 try:
-    response = requests.get(url_com_erro)
+    response = requests.get(url)
     dados = response.json()
-    print(dados)
+    print(f"Rua: {dados['logradouro']}")
+    print(f"Bairro: {dados['bairro']}")
+    print(f"Cidade: {dados['localidade']}")
 except Exception as e:
     print(f"\n[ERRO DETECTADO]: {e}")
-    print("Aguardando correção da IA...")
